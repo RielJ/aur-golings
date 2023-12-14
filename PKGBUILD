@@ -15,7 +15,7 @@ md5sums=('SKIP')
 
 build() {
   cd ${pkgname}-${pkgver}/golings
-  go build -o ../../golings
+  go build -o ${srcdir}/golings
 }
 
 package() {
