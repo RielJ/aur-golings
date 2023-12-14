@@ -10,16 +10,18 @@ depends=('go')
 provides=("golings")
 conflicts=("golings")
 install="golings.install"
-source=("https://github.com/mauricioabreu/golings/releases/download/v${pkgver}/${pkgname}_${pkgver}_Linux_x86_64.tar.gz")
-sha256sums=('3235016060403a807961d5bda9643104fea022a6283eb09ebb4bbc36131a28c7') 
+source=("${pkgname}-${pkgver}::git+https://github.com/mauricioabreu/golings.git#tag=v${pkgver}")
+md5sums=('SKIP') 
 
-prepare() {
-  wget "$source" -O ${pkgname}_${pkgver}_Linux_x86_64.tar.gz
+build() {
+  cd ${pkgname}-${pkgver}/golings
+  go build -o ../../golings
 }
 
 package() {
-  tar -xvf ${pkgname}_${pkgver}_Linux_x86_64.tar.gz
+  cd ${srcdir}
   install -D golings -t "$pkgdir"/usr/bin/
+  cd ${pkgname}-${pkgver}
   install -Dm 644 README.md -t "$pkgdir"/usr/share/doc/$pkgname
   install -Dm 644 LICENSE -t "$pkgdir"/usr/share/licenses/$pkgname
 }
